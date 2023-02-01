@@ -5,13 +5,15 @@ import (
 	"github.com/1amkaizen/gorestapi_fiber/models"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html"
 )
 
 func main() {
 	models.ConnectDatabase()
-
-	app := fiber.New()
-
+	engine := html.New("./views", ".html")
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
 	api := app.Group("/api") // /api
 	book := api.Group("/books")
 

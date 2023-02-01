@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tambah Buku</title>
+</head>
+<body>
+{{ if .alert }}
+      <script>
+        alert("{{ .alert }}");
+      </script>
+    {{ end }}
+
+    <h1>Tambah Buku Baru</h1>
+    <form action="/api/books" method="post">
+        <div>
+            <label for="judul">Judul:</label>
+            <input type="text" id="judul" name="judul">
+        </div>
+        <div>
+            <label for="penulis">Penulis:</label>
+            <input type="text" id="penulis" name="penulis">
+        </div>
+        <div>
+            <label for="penerbit">Penerbit:</label>
+            <input type="text" id="penerbit" name="penerbit">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+

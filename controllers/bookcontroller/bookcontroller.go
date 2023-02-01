@@ -11,26 +11,30 @@ import (
 func Index(c *fiber.Ctx) error {
 	var books []models.Book
 	models.DB.Find(&books)
-	return c.Status(fiber.StatusOK).JSON(books)
+	//	return c.Status(fiber.StatusOK).JSON(books)
+	return c.Render("index", fiber.Map{
+		"Title": "world",
+	})
 }
 
 func Show(c *fiber.Ctx) error {
 	id := c.Params("id")
-	var book models.Book
-	if err := models.DB.First(&book, id).Error; err != nil {
+	var books []models.Book
+	models.DB.Find(&books)
+	if err := models.DB.First(&books, id).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return c.Status(http.StatusNotFound).JSON(fiber.Map{
-				"message": "data tidak di temukan",
+			return c.Render("index", fiber.Map{
+				"alert": "Data not found",
 			})
 		}
 		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-			"message": "data tidak di temukan",
+			"message": "Internal Server Error",
 		})
-
 	}
 
-	return c.JSON(book)
-
+	return c.Render("index", fiber.Map{
+		"book": books,
+	})
 }
 
 func Create(c *fiber.Ctx) error {
@@ -46,7 +50,9 @@ func Create(c *fiber.Ctx) error {
 			"message": err.Error(),
 		})
 	}
-	return c.JSON(book)
+	return c.Render("index", fiber.Map{
+		"alert": "Data berhasil ditambahkan",
+	})
 }
 
 func Update(c *fiber.Ctx) error {
